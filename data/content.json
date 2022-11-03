@@ -1,0 +1,35 @@
+[
+  {
+    "id": "introduction",
+    "content": [
+      {
+        "id": "setup"
+      },
+      {
+        "id": "about"
+      }
+    ]
+  },
+  {
+    "id": "variables",
+    "content": [
+      {
+        "id": "vars"
+      },
+      {
+        "id": "conditions"
+      }
+    ]
+  },
+  {
+    "id": "cycles",
+    "content": [
+      {
+        "id": "for"
+      },
+      {
+        "id": "while"
+      }
+    ]
+  }
+]
