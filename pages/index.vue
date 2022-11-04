@@ -1,10 +1,12 @@
 <template>
   <div class="index">
-    <div>Index Page</div>
+    <div>Главная страница</div>
     <div>
       <ul>
         <li>
-          <NuxtLink to="/taskbook" class="text-blue-600 hover:text-blue-700">Taskbook</NuxtLink>
+          <NuxtLink to="/octave" class="text-blue-600 hover:text-blue-700">
+            Octave
+          </NuxtLink>
         </li>
       </ul>
     </div>
