@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   meta: {
     title: 'Learnerite',
   },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/content'],
+  modules: ['@nuxtjs/tailwindcss'],
   ssr: false,
   publicRuntimeConfig: {
     API_BASE_URL: process.env.API_BASE_URL,
