@@ -7,6 +7,9 @@
       Проверить решение
     </button>
 
+    <TaskResults :result="result" />
+    <TaskError :error="error" />
+
     <Navigation :entry="index[chapterId + '/' + taskId]" />
   </div>
 </template>
@@ -23,9 +26,14 @@ const { index } = await useCourseContent(course, type);
 const task = await useTaskContent(course, type, chapterId, taskId) as any;
 
 const code = ref('')
+const result = ref('')
+const error = ref('')
 
 let socket = undefined
 const onSendPressed = () => {
+  result.value = ''
+  error.value = ''
+
   if (socket?.connected) {
     socket.disconnect()
   }
@@ -41,11 +49,19 @@ const onSendPressed = () => {
   socket.on('last-job-id', (lastJobId) => {
     console.log('last job it:', lastJobId);
   })
-  socket.on('result', (stdout) => {
-    console.log('result:', stdout);
+  socket.on('result', (res) => {
+    console.log('result:', res);
+
+    if (res.code === 0) {
+      result.value = res.stdout;
+    }
+    else {
+      error.value = res.stdout;
+    }
   })
-  socket.on('error', (error) => {
-    console.log('error:', error);
+  socket.on('error', (err) => {
+    console.log('error:', err);
+    error.value = err
   })
 
 }
