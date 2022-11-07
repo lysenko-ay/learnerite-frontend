@@ -1,5 +1,5 @@
 <template>
-  <div class="navigation flex">
+  <div class="navigation flex mt-5">
     <div class="w-1/4">
       <NuxtLink v-if="entry.prev" :to="rootUrl + '/' + entry.prev" class="text-blue-600 hover:text-blue-700 w-1/4">
         &lt; {{ index[entry.prev].title }}

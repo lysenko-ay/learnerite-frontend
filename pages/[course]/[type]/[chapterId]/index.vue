@@ -1,16 +1,17 @@
 <template>
   <div class="taskbook-chapter">
-    <div class="taskbook-chapter__title">{{ index[chapterId].title }}</div>
-    <div>{{ chapter.description }}</div>
+    <PageHeader>{{ index[chapterId].title }}</PageHeader>
+    <MarkdownRenderer :data="chapter.description" />
 
+    <h3 class="mb-1 mt-3">Список доступных заданий:</h3>
     <div class="taskbook-chapter__content">
-      <ul>
+      <ol class="list-decimal list-inside">
         <li v-for="task of index[chapterId].content" :key="task.id">
-          <NuxtLink :to="`/${course}/${type}/${chapterId}/${task.id}`" class="text-blue-600 hover:text-blue-700">
+          <BaseLink :to="`/${course}/${type}/${chapterId}/${task.id}`">
             {{ task.title }}
-          </NuxtLink>
+          </BaseLink>
         </li>
-      </ul>
+      </ol>
     </div>
 
     <Navigation :entry="index[chapterId]" />
@@ -18,6 +19,9 @@
 </template>
 
 <script setup lang="ts">
+const { $md } = useNuxtApp()
+console.log($md('# markdown-it rulezz!'));
+
 const route = useRoute()
 const course = route.params.course as string
 const type = route.params.type as string

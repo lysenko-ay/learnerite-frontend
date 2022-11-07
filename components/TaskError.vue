@@ -1,6 +1,5 @@
 <template>
-  <div class="task-error" v-if="error">
-    <div>При выполнении кода возникла ошибка:</div>
+  <div class="task-error mx-5">
     <div>{{ error }}</div>
   </div>
 </template>

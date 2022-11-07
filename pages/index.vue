@@ -1,12 +1,11 @@
 <template>
   <div class="index">
-    <div>Главная страница</div>
+    <PageHeader>Главная страница</PageHeader>
     <div>
-      <ul>
+      <h3 class="mb-1">Список доступных курсов:</h3>
+      <ul class="list-disc list-inside">
         <li>
-          <NuxtLink to="/octave" class="text-blue-600 hover:text-blue-700">
-            Octave
-          </NuxtLink>
+          <BaseLink to="/octave">Octave</BaseLink>
         </li>
       </ul>
     </div>

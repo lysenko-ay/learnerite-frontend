@@ -1,15 +1,13 @@
 <template>
   <div class="taskbook">
-    <div>Задачник Octave</div>
-
+    <PageHeader>Задачник Octave</PageHeader>
+    <h3 class="mb-1">Список доступных глав:</h3>
     <div>
-      <ul>
+      <ol class="list-decimal list-inside">
         <li v-for="chapter of content" :key="chapter.id">
-          <NuxtLink :to="`/${course}/${type}/${chapter.id}`" class="text-blue-600 hover:text-blue-700">
-            {{ chapter.title }}
-          </NuxtLink>
+          <BaseLink :to="`/${course}/${type}/${chapter.id}`">{{ chapter.title }}</BaseLink>
         </li>
-      </ul>
+      </ol>
     </div>
   </div>
 </template>

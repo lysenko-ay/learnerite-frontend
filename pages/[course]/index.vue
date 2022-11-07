@@ -1,12 +1,11 @@
 <template>
   <div class="index">
-    <div>Курс Octave</div>
+    <PageHeader>Курс Octave</PageHeader>
+    <h3 class="mb-1">Список доступных разделов:</h3>
     <div>
-      <ul>
+      <ul class="list-disc list-inside">
         <li>
-          <NuxtLink :to="`/${$route.params.course}/taskbook`" class="text-blue-600 hover:text-blue-700">
-            Задачник Octave
-          </NuxtLink>
+          <BaseLink :to="`/${$route.params.course}/taskbook`">Задачник</BaseLink>
         </li>
       </ul>
     </div>
