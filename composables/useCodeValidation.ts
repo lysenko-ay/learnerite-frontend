@@ -3,8 +3,13 @@ import io from 'socket.io-client';
 let socket = undefined;
 export const useCodeValidation = () => {
   const config = useRuntimeConfig();
+  const positionInQueue = ref(0);
+  let jobId;
+
   const validate = (course: string, type: string, chapterId: string, taskId: string, code: string) => {
     return new Promise((resolve, reject) => {
+      positionInQueue.value = 0;
+
       if (socket?.connected) {
         socket.disconnect();
       }
@@ -12,6 +17,8 @@ export const useCodeValidation = () => {
       socket = io(config.API_SOCKET_URL);
       socket.emit('register', { course, type, chapterId, taskId }, (data) => {
         console.log('register', data);
+        positionInQueue.value = data.jobId - data.lastJobId;
+        jobId = data.jobId;
       });
 
       socket.on('request-code', (callback) => {
@@ -21,6 +28,7 @@ export const useCodeValidation = () => {
 
       socket.on('last-job-id', (lastJobId) => {
         console.log('last job it:', lastJobId);
+        positionInQueue.value = jobId - lastJobId;
       });
 
       socket.on('result', (res) => {
@@ -42,5 +50,6 @@ export const useCodeValidation = () => {
 
   return {
     validate,
+    positionInQueue,
   };
 };

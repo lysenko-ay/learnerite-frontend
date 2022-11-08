@@ -10,7 +10,8 @@
       <div v-if="taskCompleted">Все тесты успешно пройдены!</div>
       <div v-else-if="errors">При выполнении кода возникла ошибка.</div>
       <div v-else-if="taskFailed">Пройдено тестов: {{ passedTests }} / {{ totalTests }}.</div>
-      <div v-else-if="checking">Позиция в очереди: 1</div>
+      <div v-else-if="checking && positionInQueue > 0">Позиция в очереди: {{ positionInQueue }}</div>
+      <div v-else-if="checking">Выполняется проверка кода...</div>
       <div v-else>Нажмите "Проверить решение", чтобы проверить решение.</div>
       <button
         class="w-52 border rounded-md border-gray-400 px-4 py-2 hover:bg-gray-50 disabled:bg-transparent disabled:cursor-not-allowed disabled:text-gray-400 disabled:border-gray-300"
@@ -36,7 +37,7 @@ const taskId = route.params.taskId as string
 
 const { index } = await useCourseContent(course, type);
 const task = await useTaskContent(course, type, chapterId, taskId) as any;
-const { validate } = useCodeValidation()
+const { validate, positionInQueue } = useCodeValidation()
 
 const code = ref('')
 const checking = ref(false)
@@ -54,6 +55,7 @@ const onSendPressed = async () => {
   errors.value = ''
   taskCompleted.value = false
   taskFailed.value = false
+  passedTests.value = 0
 
   // perform code validation
   checking.value = true
