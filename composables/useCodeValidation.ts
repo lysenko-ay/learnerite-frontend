@@ -1,12 +1,19 @@
 import io from 'socket.io-client';
 
 let socket = undefined;
-export const useCodeValidation = () => {
+export const useCodeValidation = (recaptcha: any) => {
   const config = useRuntimeConfig();
   const positionInQueue = ref(0);
   let jobId;
 
-  const validate = (course: string, type: string, chapterId: string, taskId: string, code: string) => {
+  const validate = (
+    course: string,
+    type: string,
+    chapterId: string,
+    taskId: string,
+    code: string,
+    token: string = ''
+  ) => {
     return new Promise((resolve, reject) => {
       positionInQueue.value = 0;
 
@@ -15,10 +22,20 @@ export const useCodeValidation = () => {
       }
 
       socket = io(config.API_SOCKET_URL);
-      socket.emit('register', { course, type, chapterId, taskId }, (data) => {
-        console.log('register', data);
-        positionInQueue.value = data.jobId - data.lastJobId;
-        jobId = data.jobId;
+
+      const register = () => {
+        socket.emit('register', { course, type, chapterId, taskId, token }, async (data) => {
+          console.log('register', data);
+          positionInQueue.value = data.jobId - data.lastJobId;
+          jobId = data.jobId;
+        });
+      };
+      register();
+
+      socket.on('recaptcha', async () => {
+        console.log('recaptcha requested');
+        token = await recaptcha.value.execute();
+        register();
       });
 
       socket.on('request-code', (callback) => {

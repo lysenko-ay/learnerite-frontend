@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "markdown-it": "^13.0.1",
-    "socket.io-client": "^4.5.3"
+    "socket.io-client": "^4.5.3",
+    "vue3-recaptcha2": "^1.7.0"
   }
 }

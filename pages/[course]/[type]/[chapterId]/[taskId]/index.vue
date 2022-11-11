@@ -23,6 +23,7 @@
 
     <TaskResults v-if="tests.length" :tests="tests" />
     <TaskError v-if="errors" :error="errors" />
+    <NuxtRecaptcha ref="recaptcha" />
 
     <Navigation :entry="index[chapterId + '/' + taskId]" />
   </div>
@@ -37,30 +38,32 @@ const taskId = route.params.taskId as string
 
 const { index } = await useCourseContent(course, type);
 const task = await useTaskContent(course, type, chapterId, taskId) as any;
-const { validate, positionInQueue } = useCodeValidation()
 
-const code = ref('')
-const checking = ref(false)
-const tests = ref([])
-const errors = ref('')
-const totalTests = ref(0)
-const passedTests = ref(0)
+const code = ref('');
+const checking = ref(false);
+const tests = ref([]);
+const errors = ref('');
+const totalTests = ref(0);
+const passedTests = ref(0);
 
-const taskCompleted = ref(false)
-const taskFailed = ref(false)
+const taskCompleted = ref(false);
+const taskFailed = ref(false);
+
+const recaptcha = ref();
+const { validate, positionInQueue } = useCodeValidation(recaptcha);
 
 const onSendPressed = async () => {
   // reset variables
-  tests.value = []
-  errors.value = ''
-  taskCompleted.value = false
-  taskFailed.value = false
-  passedTests.value = 0
+  tests.value = [];
+  errors.value = '';
+  taskCompleted.value = false;
+  taskFailed.value = false;
+  passedTests.value = 0;
 
   // perform code validation
-  checking.value = true
-  const { result, error } = await validate(course, type, chapterId, taskId, code.value) as any
-  checking.value = false
+  checking.value = true;
+  const { result, error } = await validate(course, type, chapterId, taskId, code.value) as any;
+  checking.value = false;
 
   // parse test results
   if (result) {
@@ -84,11 +87,11 @@ const onSendPressed = async () => {
 
   // parse error
   if (error) {
-    errors.value = error
+    errors.value = error;
   }
 
   // update task status
-  taskCompleted.value = !error && passedTests.value === totalTests.value
-  taskFailed.value = !taskCompleted.value
+  taskCompleted.value = !error && passedTests.value === totalTests.value;
+  taskFailed.value = !taskCompleted.value;
 }
 </script>
