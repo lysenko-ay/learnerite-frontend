@@ -19,9 +19,6 @@
 </template>
 
 <script setup lang="ts">
-const { $md } = useNuxtApp()
-console.log($md('# markdown-it rulezz!'));
-
 const route = useRoute()
 const course = route.params.course as string
 const type = route.params.type as string
