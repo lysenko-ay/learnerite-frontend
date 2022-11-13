@@ -12,6 +12,9 @@ RUN npx nuxi generate
 
 FROM node:18 AS prod
 
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./
